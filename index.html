@@ -28,10 +28,20 @@
         maxZoom: 19,
       }).addTo(map);
 
+      // Definování vlastní ikony pro marker
+      var citizen = L.icon({
+        iconUrl: "/citizen.png", // Zde nahraďte URL cestou k vaší ikoně
+        iconSize: [60, 60], // Velikost ikony
+        iconAnchor: [30, 30], // Bod na obrázku, kde se bude nacházet špička markeru
+        popupAnchor: [0, -38], // Bod, odkud bude vycházet popup okno
+      });
+
       // Marker pro aktuální polohu
-      var currentLocationMarker = L.marker([50.0755, 14.4378])
+      var currentLocationMarker = L.marker([50.0755, 14.4378], {
+        icon: citizen,
+      })
         .addTo(map)
-        .bindPopup("Aktuální poloha");
+        .bindPopup("101. Prapor teritoriální ochrany");
 
       // Funkce pro získání aktuální polohy a aktualizaci markeru
       function updateCurrentLocation() {
@@ -51,14 +61,22 @@
       // Pole s definovanými polohami v čase
       var dynamicLocations = [
         { start_time: "2024-08-28 06:27:00", cords: [50.0855, 14.4378] },
-        { start_time: "2024-08-28 06:35:00", cords: [50.0905, 14.4480] },
-        { start_time: "2024-08-28 06:40:00", cords: [50.0955, 14.4590] },
+        { start_time: "2024-08-28 06:35:00", cords: [50.0905, 14.448] },
+        { start_time: "2024-08-28 06:40:00", cords: [50.0955, 14.459] },
         // Přidejte další body podle potřeby
       ];
 
-      var dynamicMarker = L.marker(dynamicLocations[0].cords)
+      // Definování vlastní ikony pro marker
+      var bandit = L.icon({
+        iconUrl: "/bandit.png", // Zde nahraďte URL cestou k vaší ikoně
+        iconSize: [60, 60], // Velikost ikony
+        iconAnchor: [30, 30], // Bod na obrázku, kde se bude nacházet špička markeru
+        popupAnchor: [0, -38], // Bod, odkud bude vycházet popup okno
+      });
+
+      var dynamicMarker = L.marker(dynamicLocations[0].cords, { icon: bandit })
         .addTo(map)
-        .bindPopup("Dynamický bod");
+        .bindPopup("MIKE");
 
       function updateDynamicLocation() {
         var now = new Date();
