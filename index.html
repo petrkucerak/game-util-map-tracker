@@ -20,8 +20,32 @@
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
+      // Pole s definovanými polohami v čase
+      var dynamicLocations = [
+        { start_time: "2024-08-28 06:27:00", cords: [50.0205583, 15.7867314] },
+        { start_time: "2024-08-28 09:00:00", cords: [50.0205583, 15.7867314] },
+
+        // Přidejte další body podle potřeby
+      ];
+
       // Vytvoření mapy
-      var map = L.map("map").setView([50.0205583, 15.7867314], 13); // Centrováno na Prahu jako výchozí pozice
+      let init_coords;
+      {
+        var now = new Date();
+        for (var i = 0; i < dynamicLocations.length; i++) {
+          var startTime = new Date(dynamicLocations[i].start_time);
+          if (
+            now >= startTime &&
+            (i == dynamicLocations.length - 1 ||
+              now < new Date(dynamicLocations[i + 1].start_time))
+          ) {
+            init_coords = dynamicLocations[i].cords;
+
+            break;
+          }
+        }
+      }
+      var map = L.map("map").setView(init_coords, 17);
 
       // Přidání vrstev
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -57,15 +81,6 @@
 
       // Aktualizace aktuální polohy každých 10 sekund
       setInterval(updateCurrentLocation, 10000);
-
-      // Pole s definovanými polohami v čase
-      var dynamicLocations = [
-        { start_time: "2024-08-28 06:27:00", cords: [50.0205583, 15.7867314] },
-        { start_time: "2024-08-28 09:00:00", cords: [50.0205583, 15.7867314] },
-        
-
-        // Přidejte další body podle potřeby
-      ];
 
       // Definování vlastní ikony pro marker
       var bandit = L.icon({
